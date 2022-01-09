@@ -1,5 +1,11 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
+import { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
+import { getPost,deletePost } from '../../service/api';
+import { useParams, useNavigate } from "react-router-dom";
+import Notiflix from 'notiflix';
+
 
 const useClasses = makeStyles((theme)=>({
     container:{
@@ -39,29 +45,64 @@ const useClasses = makeStyles((theme)=>({
     }
 }));
 
-const DetailView = () => {
-    const classes = useClasses();
-    const url = "https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80";
+const DetailView = ({match}) => {
+    const classes = useClasses();    
+    
+    const [post,setPost] = useState({});
+    const params = useParams();
+    
+    const url = post.picture || "https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80";
+
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        const fetchData = async () =>{
+            let data = await getPost(params.id);
+            console.log(data);
+            setPost(data);
+        }
+        fetchData();
+    },[]);
+
+    const deleteBlog = () => {
+        Notiflix.Confirm.show(
+            'Delete Post',
+            'Are you sure you want to delete this post?',
+            'Yes',
+            'No',
+            function okCb() {
+              deletePost(params.id);
+              navigate('/');
+            },
+            function cancelCb() {
+              alert('If you say so...');
+            },
+            {
+              width: '320px',
+              borderRadius: '8px',
+              // etc...
+            },
+          );        
+    }
+
     return(
         
         <Box className={classes.container}>
             <img src={url} alt='banner' className={classes.image}/>
             <Box className={classes.icons}>
-                <Edit className={classes.icon} color="primary"/>
-                <Delete className={classes.icon} color="error"/>
+                <Link to={`/update/${post._id}`}><Edit className={classes.icon} color="primary"/></Link>
+                <Delete onClick={(e) => { deleteBlog(e) }} className={classes.icon} color="error"/>
             </Box>
-            <Typography className={classes.heading}>Title of the blog</Typography>
+            <Typography className={classes.heading}>{post.title}</Typography>
 
             <Box className={classes.subheading}>
-                <Typography>Author: <b>Santosh Kp</b></Typography>
-                <Typography style={{marginLeft:'auto'}}>31 Dec, 2021</Typography>
+                <Typography>Author: <b>{post.username}</b></Typography>
+                <Typography style={{marginLeft:'auto'}}>{new Date(post.createdDate).toDateString()}</Typography>
             </Box>
 
             <Box>
                 <Typography>
-                Proin eget tortor risus. Proin eget tortor risus. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Donec sollicitudin molestie malesuada. Donec rutrum congue leo eget malesuada. Cras ultricies ligula sed magna dictum porta.
-
-Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Pellentesque in ipsum id orci porta dapibus. Donec rutrum congue leo eget malesuada. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vivamus suscipit tortor eget felis porttitor volutpat.                    
+                {post.description}
                 </Typography>
             </Box>
         </Box>

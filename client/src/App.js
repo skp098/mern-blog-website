@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/home/Home';
 import DetailView from './components/post/DetailView';
 import CreateView from './components/post/CreateView';
+import UpdateView from './components/post/UpdateView';
 import Header from './components/Header';
 
 
@@ -16,8 +17,9 @@ function App() {
       <Box style={{marginTop:64}}>
         <Routes>
           <Route exact path='/' element={<Home/>}/>
-          <Route exact path='/details' element={<DetailView/>}/>
+          <Route exact path='/details/:id' element={<DetailView/>}/>
           <Route exact path='/create' element={<CreateView/>}/>
+          <Route exact path='/update/:id' element={<UpdateView/>}/>
         </Routes>
       </Box>
     </BrowserRouter>

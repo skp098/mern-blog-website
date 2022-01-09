@@ -22,7 +22,7 @@ const Categories = () =>{
     const Classes = useStyles();
     return(
         <>
-            <Link to={'/create'} className={Classes.link}><Button varient='contained' className={Classes.create}>Create Blog</Button></Link>
+            <Link to={'/create'} className={Classes.link}><Button variant='contained' className={Classes.create}>Create Blog</Button></Link>
             <Table className={Classes.table}>
                 <TableHead>
                     <TableRow>

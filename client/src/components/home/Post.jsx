@@ -34,16 +34,16 @@ const useStyles = makeStyles({
     }
 });
 
-const Post = () =>{
-    const url = 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=752&q=80';
+const Post = ({post}) =>{
+    const url = post.picture || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=752&q=80';
     const Classes = useStyles();
     return(
         <Box className={Classes.container}>
             <img src={url} alt='wrapper' className={Classes.image} />
-            <Typography className={Classes.text}>Music</Typography>
-            <Typography className={Classes.heading}>Code for Interview</Typography>
-            <Typography className={Classes.text}>Author: SantoshKp</Typography>
-            <Typography className={Classes.detail}>My first well known react...</Typography>
+            <Typography className={Classes.text}>{post.categories}</Typography>
+            <Typography className={Classes.heading}>{post.title}</Typography>
+            <Typography className={Classes.text}>Author: {post.username}</Typography>
+            <Typography className={Classes.detail}>{post.description.slice(0,100)}...</Typography>
         </Box>
     )
 }
