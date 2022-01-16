@@ -19,11 +19,11 @@ export const createPost = (post) => {
       });
 }
 
-export const getAllPosts = async () =>{     
+export const getAllPosts = async (params) =>{     
 
     try{
        
-      let response = await axios.get(`${url}/posts`)
+      let response = await axios.get(`${url}/posts${params}`)
       return response.data;
       
     }catch(error){
@@ -71,4 +71,12 @@ export const deletePost = async (id) =>{
   .catch(function (error) {
     console.log(error);
   });  
+}
+
+export const uploadFile = async (post) => {  
+  try {
+      return await axios.post(`${url}/file/upload`, post);
+  } catch (error) {
+      console.log('Error while calling uploadFile API ', error);
+  }
 }

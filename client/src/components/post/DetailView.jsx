@@ -42,6 +42,10 @@ const useClasses = makeStyles((theme)=>({
             display:'block'
         }
 
+    },
+    link:{
+        textDecoration:'none',
+        color:'inherit'
     }
 }));
 
@@ -96,7 +100,9 @@ const DetailView = ({match}) => {
             <Typography className={classes.heading}>{post.title}</Typography>
 
             <Box className={classes.subheading}>
-                <Typography>Author: <b>{post.username}</b></Typography>
+                <Link to={`/?username=${post.username}`} className={classes.link}>
+                    <Typography>Author: <b>{post.username}</b></Typography>
+                </Link>
                 <Typography style={{marginLeft:'auto'}}>{new Date(post.createdDate).toDateString()}</Typography>
             </Box>
 
