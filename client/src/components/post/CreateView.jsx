@@ -110,7 +110,7 @@ const CreateView = () => {
             <TextareaAutosize 
                 onChange={(e) => handleChange(e)} 
                 minRows={5} 
-                placeholder='Tell your story...' 
+                placeholder='Write your blog...' 
                 className={classes.textarea}
                 name='description'
             />
